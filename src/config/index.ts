@@ -41,7 +41,15 @@ export class App {
    this.routers.controlRoutes.routes(this.app)
    this.routers.datosRoutes.routes(this.app)
    this.routers.dispositivosRoutes.routes(this.app)
-
+   this.routers.UsuarioRoutes.routes(this.app)
+   this.routers.alertaRoutes.routes(this.app)
+   this.routers.bateriaRoutes.routes(this.app)
+   this.routers.estadoBateriaRoutes.routes(this.app)
+   this.routers.estadoLuminariaRoutes.routes(this.app)
+   this.routers.lecturaRoutes.routes(this.app)
+   this.routers.luminarRoutes.routes(this.app)
+   this.routers.sensorRoutes.routes(this.app)
+   this.routers.comandoRoutes.routes(this.app)
   }
 
   private async dbConnection(): Promise<void> {
