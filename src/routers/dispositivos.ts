@@ -9,9 +9,9 @@ export class DispositivoRoutes {
         app.route("/dispositivos/test").get(this.DispositivoController.test)
         app.route("/dispositivo").get(this.DispositivoController.getAllDispositivos)
         app.route("/dispositivos").post(this.DispositivoController.createDispositivo)
-        app.route("/dispositivo/:id").put(this.DispositivoController.updateDispositivo)
-        app.route("/dispositivo/:id").delete(this.DispositivoController.deleteDispositivo)
-        app.route("/dispositivo/:id").get(this.DispositivoController.getOneDispositivo)
+        app.route("/dispositivos/:id").put(this.DispositivoController.updateDispositivo)
+        app.route("/dispositivos/:id").delete(this.DispositivoController.deleteDispositivo)
+        app.route("/dispositivos/:id").get(this.DispositivoController.getOneDispositivo)
 
 
     }

@@ -1,4 +1,4 @@
-import { where } from 'sequelize/types';
+import { where } from 'sequelize';
 import { Request, Response } from 'express';
 import { Control, ControlI } from '../models/contro_usuario';
 
@@ -15,17 +15,15 @@ export class ControlController {
     }
 
     // Obtener todos los registros de control
-    public async getAllControl(req: Request, res: Response) {
+    public async getAllControl(req: Request, res: Response){
         try {
-
-            const control: ControlI[] = await Control.findAll();
-
-            res.status(200).json({ control });
-
+            const control: ControlI[] = await Control.findAll()
+            res.status(200).json({control})
         } catch (error) {
-            res.status(500).json({ msg: "Error interno" });
+            res.status(500).json({msg:"Error Internal"})
         }
     }
+
 
     // Crear un registro de control (encender o apagar luz)
     public async createControl(req: Request, res: Response) {
@@ -131,6 +129,7 @@ export class ControlController {
         finally {
         }
     }
+
 }
 
 

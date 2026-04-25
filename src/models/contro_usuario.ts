@@ -30,7 +30,7 @@ export class Control extends Model {
         
     },
     {
-      tableName: "control_usuario",
+      tableName: "control",
       sequelize: database,
       timestamps: false
     }

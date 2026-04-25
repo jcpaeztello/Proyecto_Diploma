@@ -11,21 +11,17 @@ export class DatosController {
         try {
             res.send('hola, metodo test para Cliente')
         } catch (error) {
+            res.status(500).json({msg: "Error Internal"})
 
         }
     }
 
     public async getAllDatos(req: Request, res:Response){
         try {
-            const datos: DatosI[] = await Datos.findAll(
-                {
-                  where:{
-                    estado_luz:'activo',
-                  }
-                }
-            ) // select * from clientes;
-            res.status(200).json({Datos})
+            const datos: DatosI[] = await Datos.findAll() 
+            res.status(200).json({datos})
         } catch (error) {
+            res.status(500).json({msg: "Error Internal"})
 
         }
     }

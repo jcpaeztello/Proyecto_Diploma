@@ -34,7 +34,7 @@ export class Datos extends Model {
         }
     },
     {
-      tableName: "datos_sensor",
+      tableName: "datos",
       sequelize: database,
       timestamps: false
     }

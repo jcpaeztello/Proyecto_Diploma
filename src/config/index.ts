@@ -2,11 +2,18 @@ import dotenv from "dotenv";
 import express, { Application } from "express";
 import morgan from "morgan";
 import { sequelize, testConnection, getDatabaseInfo } from "../database/db";
+import { Routes } from "../routers/index";
+import { ControlRoutes } from "../routers/control_usuario";
+import { DispositivoRoutes } from "../routers/dispositivos";
+import { DatosRoutes } from "../routers/datos_sensor";
+
 var cors = require("cors");
 
 dotenv.config();
 
 export class App {
+  public routers: Routes =  new Routes();
+  
   public app: Application;
 
   constructor(private port?: number | string) {
@@ -15,6 +22,7 @@ export class App {
     this.middlewares();
     this.routes();
     this.dbConnection();
+
   }
 
   private settings(): void {
@@ -28,8 +36,12 @@ export class App {
     this.app.use(express.urlencoded({ extended: false }));
   }
 
-  private routes(): void {
+  routes(): void {
     // Las rutas se configurarán más adelante
+   this.routers.controlRoutes.routes(this.app)
+   this.routers.datosRoutes.routes(this.app)
+   this.routers.dispositivosRoutes.routes(this.app)
+
   }
 
   private async dbConnection(): Promise<void> {

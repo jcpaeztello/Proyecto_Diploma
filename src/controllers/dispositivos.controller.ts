@@ -1,4 +1,4 @@
-import { where } from 'sequelize/types';
+import { where } from 'sequelize';
 import { Request, Response } from 'express';
 import { Dispositivo, DispositivoI } from '../models/dispositivos';
 
@@ -13,15 +13,15 @@ export class DispositivoController{
     }
 
     // Mostrar todos los dispositivos
-    public async getAllDispositivos(req: Request, res: Response){
-        try {
-            const dispositivos: DispositivoI[] = await Dispositivo.findAll()
-            res.status(200).json({dispositivos})
-        } catch (error) {
-            res.status(500).json({msg:"Error Internal"})
+        public async getAllDispositivos(req: Request, res: Response){
+            try {
+                const dispositivos: DispositivoI[] = await Dispositivo.findAll()
+                res.status(200).json({dispositivos})
+            } catch (error) {
+                res.status(500).json({msg:"Error Internal"})
+            }
         }
-    }
-
+             
     // Crear dispositivo
     public async createDispositivo(req: Request, res: Response){
         const {
