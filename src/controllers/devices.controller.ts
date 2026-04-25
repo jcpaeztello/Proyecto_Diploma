@@ -1,129 +1,111 @@
-import { where } from 'sequelize';
-import { Request, Response } from 'express';
-import { Dispositivo, DispositivoI } from '../models/dispositivos';
-
+import { where } from "sequelize";
+import { Request, Response } from "express";
+import { Device, DeviceI } from "../models/Device";
 
 export class DeviceController {
-    public async test(req: Request, res: Response){
-        try {
-            res.send('hola, metodo test para Dispositivo')
-        } catch (error) {
+  public async test(req: Request, res: Response) {
+    try {
+      res.send("hola, metodo test para Dispositivo");
+    } catch (error) {}
+  }
 
-        }
+  // Mostrar todos los dispositivos
+  public async getAll(req: Request, res: Response) {
+    try {
+      const devices: DeviceI[] = await Device.findAll();
+      res.status(200).json({ devices });
+    } catch (error) {
+      res.status(500).json({ msg: "Error Internal" });
+    }
+  }
+
+  // Crear dispositivo
+  public async create(req: Request, res: Response) {
+    const { name, location, status, mode } = req.body;
+
+    try {
+      let body: DeviceI = {
+        name,
+        location,
+        status,
+        mode,
+      };
+
+      const device: DeviceI = await Device.create({ ...body });
+      res.status(200).json({ device });
+    } catch (error) {
+      res.status(500).json({ msg: "Error Internal" });
+    }
+  }
+
+  // Actualizar dispositivo
+  public async update(req: Request, res: Response) {
+    const pk = Number(req.params.id);
+
+    const { name, location, status, mode } = req.body;
+
+    try {
+      let body: DeviceI = {
+        name,
+        location,
+        status,
+        mode,
+      };
+
+      const deviceExist: DeviceI | null = await Device.findByPk(pk);
+
+      if (!deviceExist)
+        return res.status(404).json({ msg: "El dispositivo no existe" });
+
+      await Device.update(body, {
+        where: { id: pk },
+      });
+    } catch (error) {
+      res.status(500).json({ msg: "Error Internal" });
     }
 
-    // Mostrar todos los dispositivos
-        public async getAllDispositivos(req: Request, res: Response){
-            try {
-                const dispositivos: DispositivoI[] = await Dispositivo.findAll()
-                res.status(200).json({dispositivos})
-            } catch (error) {
-                res.status(500).json({msg:"Error Internal"})
-            }
-        }
-             
-    // Crear dispositivo
-    public async createDispositivo(req: Request, res: Response){
-        const {
-            nombreDispositivo,
-           ubicacionDispositivo,
-          estadoDispositivo,
-           modoDispositivo
-        } = req.body;
+    const device: DeviceI | null = await Device.findByPk(pk);
 
-        try{
-            let body: DispositivoI = {
-                nombreDispositivo,
-                ubicacionDispositivo,
-               estadoDispositivo,
-                modoDispositivo
-            }
+    if (device) return res.status(200).json({ device });
+  }
 
-            const dispositivo: DispositivoI = await Dispositivo.create({...body});
-            res.status(200).json({dispositivo});
+  // Eliminar dispositivo
+  public async delete(req: Request, res: Response) {
+    const pk = Number(req.params.id);
+    try {
+      const deviceExist: DeviceI | null = await Device.findByPk(pk);
 
-        } catch (error){
-            res.status(500).json({msg: "Error Internal"})
-        }
+      if (!deviceExist)
+        return res.status(404).json({ msg: "El dispositivo no existe" });
+
+      await Device.destroy({
+        where: { id: pk },
+      });
+
+      res.status(200).json({ msg: "Dispositivo eliminado" });
+    } catch (error) {
+      res.status(500).json({ msg: "Error Internal" });
     }
+  }
 
-    // Actualizar dispositivo
-    public async updateDispositivo(req: Request, res: Response){
-        const pk = Number(req.params.id);
+  // Mostrar un dispositivo
+  public async getOne(req: Request, res: Response) {
+    const { id: idParam } = req.params;
 
-        const {
-            nombreDispositivo,
-            ubicacionDispositivo,
-           estadoDispositivo,
-            modoDispositivo
-        } = req.body;
+    try {
+      const device: DeviceI | null = await Device.findOne({
+        where: {
+          id: idParam,
+        },
+      });
 
-        try{
-
-            let body: DispositivoI = {
-                nombreDispositivo,
-                ubicacionDispositivo,
-               estadoDispositivo,
-                modoDispositivo
-            }
-
-            const dispositivoExist: DispositivoI | null = await Dispositivo.findByPk(pk);
-
-            if(!dispositivoExist) return res.status(500).json({msg:"El dispositivo no existe"})
-
-            await Dispositivo.update(body,{
-                where:{id:pk}
-            })
-
-        } catch (error){
-            res.status(500).json({msg:"Error Internal"})
-        }
-
-        const dispositivo: DispositivoI | null = await Dispositivo.findByPk(pk)
-
-        if(dispositivo) return res.status(200).json({dispositivo})
+      if (device) {
+        res.status(200).json({ device });
+      } else {
+        return res.status(404).json({ msg: "El dispositivo no existe" });
+      }
+    } catch (error) {
+      res.status(500).json({ msg: "Error Internal" });
     }
-
-    // Eliminar dispositivo
-    public async deleteDispositivo(req: Request, res: Response){
-        const pk = Number(req.params.id);
-        try{
-
-            const dispositivoExist: DispositivoI | null = await Dispositivo.findByPk(pk)
-
-            if(!dispositivoExist) return res.status(500).json({msg:"El dispositivo no existe"})
-
-            await Dispositivo.destroy({
-                where:{id:pk}
-            })
-
-            res.status(200).json({msg:"Dispositivo eliminado"})
-
-        } catch (error){
-            res.status(500).json({msg:"Error Internal"})
-        }
-    }
-
-    // Mostrar un dispositivo
-    public async getOneDispositivo(req: Request, res: Response){
-        const {id:idParam} = req.params
-
-        try{
-
-            const dispositivo: DispositivoI | null = await Dispositivo.findOne({
-                where:{
-                    id:idParam
-                }
-            })
-
-            if(dispositivo){
-                res.status(200).json({dispositivo})
-            }else{
-                return res.status(300).json({msg:"El dispositivo no existe"})
-            }
-
-        } catch (error){
-            res.status(500).json({msg:"Error Internal"})
-        }
-    }
+  }
 }

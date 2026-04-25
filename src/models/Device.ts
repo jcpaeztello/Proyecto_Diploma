@@ -1,43 +1,43 @@
 import { Model, DataTypes } from "sequelize";
 import { database } from "../database/db";
 
-export class Dispositivo extends Model {
-  public nombreDispositivo!: string;
-  public ubicacionDispositivo!: string;
-  public estadoDispositivo!: boolean;
-  public modoDispositivo!: boolean;
+export class Device extends Model {
+  public name!: string;
+  public location!: string;
+  public status!: boolean;
+  public mode!: boolean;
 }
 
-export interface DispositivoI {
-  nombreDispositivo: string;
-  ubicacionDispositivo: string;
-  estadoDispositivo: boolean;
-  modoDispositivo: boolean;
+export interface DeviceI {
+  name: string;
+  location: string;
+  status: boolean;
+  mode: boolean;
 }
 
-Dispositivo.init(
+Device.init(
   {
-    nombreDispositivo: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    ubicacionDispositivo: {
+    location: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    estadoDispositivo: {
+    status: {
       //type: DataTypes.BOOLEAN,
       type: DataTypes.ENUM("activo", "inactivo"),
       allowNull: false,
     },
-    modoDispositivo: {
+    mode: {
       //type: DataTypes.BOOLEAN,
       type: DataTypes.ENUM("automatico", "manual"),
       allowNull: false,
     },
   },
   {
-    tableName: "dispositivo",
+    tableName: "devices",
     sequelize: database,
     timestamps: false,
   },

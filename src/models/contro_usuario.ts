@@ -1,6 +1,6 @@
 import { Model, DataTypes } from "sequelize";
 import { database } from "../database/db";
-import { Dispositivo } from "./dispositivos";
+import { Device } from "./Device";
 
 export class Control extends Model {
   public accion!: boolean;
@@ -30,5 +30,5 @@ Control.init(
   },
 );
 
-Control.belongsTo(Dispositivo);
-Dispositivo.hasMany(Control);
+Control.belongsTo(Device);
+Device.hasMany(Control);

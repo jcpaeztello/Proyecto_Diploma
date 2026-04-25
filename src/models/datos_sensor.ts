@@ -1,6 +1,6 @@
 import { Model, DataTypes } from "sequelize";
 import { database } from "../database/db";
-import { Dispositivo } from "./dispositivos";
+import { Device } from "./Device";
 
 export class Datos extends Model {
   public nivel_luz!: number;
@@ -36,5 +36,5 @@ Datos.init(
   },
 );
 
-Datos.belongsTo(Dispositivo);
-Dispositivo.hasMany(Datos);
+Datos.belongsTo(Device);
+Device.hasMany(Datos);

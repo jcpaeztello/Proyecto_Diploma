@@ -8,10 +8,10 @@ export class DeviceRoutes {
 
     public routes(app: Application): void {
         app.route("/devices/test").get(this.deviceController.test)
-        app.route("/devices").get(authMiddleware, this.deviceController.getAllDispositivos)
-        app.route("/devices").post(authMiddleware, this.deviceController.createDispositivo)
-        app.route("/devices/:id").put(authMiddleware, this.deviceController.updateDispositivo)
-        app.route("/devices/:id").delete(authMiddleware, this.deviceController.deleteDispositivo)
-        app.route("/devices/:id").get(authMiddleware, this.deviceController.getOneDispositivo)
+        app.route("/devices").get(authMiddleware, this.deviceController.getAll)
+        app.route("/devices").post(authMiddleware, this.deviceController.create)
+        app.route("/devices/:id").put(authMiddleware, this.deviceController.update)
+        app.route("/devices/:id").delete(authMiddleware, this.deviceController.delete)
+        app.route("/devices/:id").get(authMiddleware, this.deviceController.getOne)
     }
 }
