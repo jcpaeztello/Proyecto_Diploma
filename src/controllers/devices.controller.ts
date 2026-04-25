@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { Dispositivo, DispositivoI } from '../models/dispositivos';
 
 
-export class DispositivoController{
+export class DeviceController {
     public async test(req: Request, res: Response){
         try {
             res.send('hola, metodo test para Dispositivo')
