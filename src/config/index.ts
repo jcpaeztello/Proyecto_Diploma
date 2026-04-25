@@ -39,6 +39,7 @@ export class App {
     this.routers.deviceRoutes.routes(this.app);
     this.routers.authRoutes.routes(this.app);
     this.routers.readingRoutes.routes(this.app);
+    this.routers.commandRoutes.routes(this.app);
   }
 
   private async dbConnection(): Promise<void> {
