@@ -1,6 +1,5 @@
-import { ControlRoutes } from './control_usuario';
-import { DatosRoutes } from './datos_sensor';
-import { DispositivoRoutes } from './dispositivos';
+
+import { DispositivoRoutes } from './dispositivo';
 import { EstadoLuminariaRoutes } from "./estado_luminaria";
 import { EstadoBateriaRoutes } from "./estado_bateria";
 import { AlertaRoutes } from "./alerta";
@@ -10,11 +9,13 @@ import { SensorRoutes } from "./sensor";
 import { LuminariaRoutes } from "./luminaria";
 import { BateriaRoutes } from "./bateria";
 import { ComandoRoutes } from "./comando_remoto";
+import { zonaRoutes } from './zona_alumbrado';
+import { authRoutes } from "./auth_routes";
+
 
 
 export class Routes {
-    public controlRoutes: ControlRoutes = new ControlRoutes();
-    public datosRoutes: DatosRoutes = new DatosRoutes();
+   
     public dispositivosRoutes: DispositivoRoutes = new DispositivoRoutes();
     public estadoLuminariaRoutes = new EstadoLuminariaRoutes();
     public estadoBateriaRoutes = new EstadoBateriaRoutes();
@@ -25,4 +26,6 @@ export class Routes {
     public luminarRoutes = new LuminariaRoutes();
     public UsuarioRoutes = new UsuarioRoutes();
     public comandoRoutes = new ComandoRoutes();
+    public zonaRoutes = new zonaRoutes();
+    public authRoutes = new authRoutes();
 }
