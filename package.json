@@ -2,11 +2,11 @@
   "name": "proyecto_diploma",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/src/server.js",
   "scripts": {
     "build": "tsc",
     "dev": "nodemon src/server.ts --exec ts-node",
-    "start": "node dist/index.js"
+    "start": "node dist/src/server.js"
   },
   "keywords": [],
   "author": "",
@@ -33,7 +33,6 @@
     "mysql2": "^3.22.1",
     "pg": "^8.20.0",
     "sequelize": "^6.37.8",
-    "typescript": "^5.0.0",
     "zod": "^4.4.1"
   }
 }
