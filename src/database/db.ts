@@ -1,23 +1,15 @@
 import { Sequelize } from "sequelize";
-import dotenv from "dotenv";
-
-const DB_NAME = "railway";
-
-const DB_USER = "root";
-
-const DB_PASS = "egTDqNceonwbmdCCjocxUqfjdCbiMcjW";
-
-//mysql://root:egTDqNceonwbmdCCjocxUqfjdCbiMcjW@metro.proxy.rlwy.net:21674/railway
+import dotenv from "dotenv"
 
 export const database = new Sequelize(
-  DB_NAME,
-  DB_USER,
-  DB_PASS,
+  process.env.DB_NAME as string,
+  process.env.DB_USER as string,
+  process.env.DB_PASS as string,
 
   {
-    host: "metro.proxy.rlwy.net",
+    host: process.env.DB_HOST as string,
     dialect: "mysql",
-    port: 21674,
+    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 3306,
   },
 );
 
@@ -42,20 +34,12 @@ interface DatabaseConfig {
 const dbConfigurations: Record<string, DatabaseConfig> = {
   mysql: {
     dialect: "mysql",
-    host: process.env.MYSQL_HOST || "metro.proxy.rlwy.net",
-    username: process.env.MYSQL_USER || "root",
-    password: process.env.MYSQL_PASSWORD || "egTDqNceonwbmdCCjocxUqfjdCbiMcjW",
-    database: process.env.MYSQL_NAME || "railway",
-    port: parseInt(process.env.MYSQL_PORT || "21674"),
-  },
-  /*postgres: {
-    dialect: "postgres",
-    host: process.env.POSTGRES_HOST || "localhost",
-    username: process.env.POSTGRES_USER || "postgres",
-    password: process.env.POSTGRES_PASSWORD || "",
-    database: process.env.POSTGRES_NAME || "test",
-    port: parseInt(process.env.POSTGRES_PORT || "5432")
-  }*/
+    host: process.env.MYSQL_HOST as string,
+    username: process.env.MYSQL_USER as string,
+    password: process.env.MYSQL_PASSWORD as string,
+    database: process.env.MYSQL_NAME as string,
+    port: parseInt(process.env.MYSQL_PORT as string),
+  }
 };
 
 const selectedEngine = process.env.DB_ENGINE || "mysql";

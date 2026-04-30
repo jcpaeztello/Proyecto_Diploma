@@ -1,17 +1,17 @@
 import dotenv from "dotenv";
 import express, { Application } from "express";
-import morgan from "morgan";
-import { sequelize, testConnection, getDatabaseInfo } from "../database/db";
+import morgan from "morgan"
+import { sequelize, testConnection, getDatabaseInfo } from "../database/db"
 import { Routes } from "../routers/index";
-import { validateToken } from "../middlewares/validateToken";
-var cors = require("cors");
+import { authMiddleware } from "../middleware/authMiddleware"
+var cors = require("cors")
 
 dotenv.config();
 
 export class App {
   public routers: Routes = new Routes();
 
-  public app: Application;
+  public app: Application
 
   constructor(private port?: number | string) {
     this.app = express();
@@ -36,7 +36,7 @@ export class App {
     // Las rutas se configurarán más adelante
     this.routers.authRoutes.routes(this.app)
 
-    this.app.use(validateToken)
+    this.app.use(authMiddleware)
 
 
     this.routers.dispositivosRoutes.routes(this.app)
