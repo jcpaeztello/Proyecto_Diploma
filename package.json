@@ -7,12 +7,12 @@
     "build": "tsc",
     "dev": "nodemon src/server.ts --exec ts-node",
     "start": "node dist/index.js"
-
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
@@ -33,6 +33,7 @@
     "mysql2": "^3.22.1",
     "pg": "^8.20.0",
     "sequelize": "^6.37.8",
-     "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "zod": "^4.4.1"
   }
 }

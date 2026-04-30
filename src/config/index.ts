@@ -1,17 +1,17 @@
 import dotenv from "dotenv";
 import express, { Application } from "express";
-import morgan from "morgan";
-import { sequelize, testConnection, getDatabaseInfo } from "../database/db";
+import morgan from "morgan"
+import { sequelize, testConnection, getDatabaseInfo, renameTableIfNeeded } from "../database/db"
 import { Routes } from "../routers/index";
-
-var cors = require("cors");
+import { authMiddleware } from "../middleware/authMiddleware"
+var cors = require("cors")
 
 dotenv.config();
 
 export class App {
   public routers: Routes = new Routes();
 
-  public app: Application;
+  public app: Application
 
   constructor(private port?: number | string) {
     this.app = express();
@@ -22,7 +22,7 @@ export class App {
   }
 
   private settings(): void {
-    this.app.set("port", this.port || process.env.PORT || 21674);
+    this.app.set("port", this.port || process.env.PORT || 12437);
   }
 
   private middlewares(): void {
@@ -34,12 +34,24 @@ export class App {
 
   private routes(): void {
     // Las rutas se configurarán más adelante
-    this.routers.controlRoutes.routes(this.app);
-    this.routers.datosRoutes.routes(this.app);
-    this.routers.deviceRoutes.routes(this.app);
-    this.routers.authRoutes.routes(this.app);
-    this.routers.readingRoutes.routes(this.app);
-    this.routers.commandRoutes.routes(this.app);
+    this.routers.authRoutes.routes(this.app)
+
+    this.app.use(authMiddleware)
+
+
+    this.routers.dispositivosRoutes.routes(this.app)
+    this.routers.UsuarioRoutes.routes(this.app)
+    this.routers.alertaRoutes.routes(this.app)
+    this.routers.bateriaRoutes.routes(this.app)
+    this.routers.estadoBateriaRoutes.routes(this.app)
+    this.routers.estadoLuminariaRoutes.routes(this.app)
+    this.routers.lecturaRoutes.routes(this.app)
+    this.routers.luminarRoutes.routes(this.app)
+    this.routers.sensorRoutes.routes(this.app)
+    this.routers.comandoRoutes.routes(this.app)
+    this.routers.zonaRoutes.routes(this.app)
+
+
   }
 
   private async dbConnection(): Promise<void> {
@@ -56,6 +68,9 @@ export class App {
           `No se pudo conectar a la base de datos ${dbInfo.engine.toUpperCase()}`,
         );
       }
+
+      // Renombrar tabla si es necesario
+      await renameTableIfNeeded();
 
       // Sincronizar la base de datos
       await sequelize.sync({ force: false });

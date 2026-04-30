@@ -1,51 +1,49 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../database/db";
-import { database } from "../database/db";
 
 
 export class User extends Model<UserAttributes, UserAttributes> {
-    public id!: number;
-    public email!: string;
-    public password!: string;
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
-
+    public id_usuario!: number;
+    public nombre!: string | null;
+    public correo!: string;
+    public contraseña!: string;
 }
 
-interface UserAttributes {
-  id?: number;
-  email: string;
-  password: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-export interface UserInstance extends Model<UserAttributes, UserAttributes>, UserAttributes {
-  id: number;
-  createdAt: Date;
-  updatedAt: Date;
+export interface UserAttributes {
+  id_usuario?: number;
+  nombre?: string | null;
+  correo: string;
+  contraseña: string;
 }
 
 User.init(
   {
-    id : {
+    id_usuario: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+      field: 'id_usuario'
     },
-    email: {
+    nombre: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      field: 'nombre'
+    },
+    correo: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      field: 'correo'
     },
-    password: {
+    contraseña: {
       type: DataTypes.STRING,
       allowNull: false,
+      field: 'contraseña'
     },
   },
   {
-    tableName: "users",
-    sequelize: database,
-    timestamps: true,
+    tableName: "usuarios",
+    sequelize: sequelize,
+    timestamps: false,
   },
 );
