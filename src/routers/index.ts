@@ -21,9 +21,21 @@ class zonaRoutes {
 }
 
 export class Routes {
-  public controlRoutes: ControlRoutes = new ControlRoutes();
-  public datosRoutes: DatosRoutes = new DatosRoutes();
-  public deviceRoutes: DeviceRoutes = new DeviceRoutes();
+  // Nuevas rutas con arquitectura de capas
   public authRoutes: AuthRoutes = new AuthRoutes();
-  public readingRoutes: ReadingRoutes = new ReadingRoutes();
+  public UsuarioRoutes = new UsuarioRoutes();
+  
+  // Rutas originales
+  public sensorRoutes = new SensorRoutes();
+  public luminarRoutes = new LuminariaRoutes();
+  public bateriaRoutes = new BateriaRoutes();
+  public alertaRoutes = new AlertaRoutes();
+  public comandoRoutes = new ComandoRoutes();
+  public estadoLuminariaRoutes = new EstadoLuminariaRoutes();
+  public estadoBateriaRoutes = new EstadoBateriaRoutes();
+  public lecturaRoutes = new LecturaRoutes();
+  
+  // Stubs
+  public dispositivosRoutes = new DispositivoRoutes();
+  public zonaRoutes = new zonaRoutes();
 }
