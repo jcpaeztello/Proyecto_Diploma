@@ -26,6 +26,7 @@ export class App {
   }
 
   private middlewares(): void {
+    this.app.get("/health", (_req, res) => res.json({ status: "ok" }));
     this.app.use(morgan("dev"));
     this.app.use(cors());
     this.app.use(express.json());
