@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import express, { Application } from "express";
 import morgan from "morgan"
-import { sequelize, testConnection, getDatabaseInfo } from "../database/db"
+import { sequelize, testConnection, getDatabaseInfo, renameTableIfNeeded } from "../database/db"
 import { Routes } from "../routers/index";
 import { authMiddleware } from "../middleware/authMiddleware"
 var cors = require("cors")
@@ -68,6 +68,9 @@ export class App {
           `No se pudo conectar a la base de datos ${dbInfo.engine.toUpperCase()}`,
         );
       }
+
+      // Renombrar tabla si es necesario
+      await renameTableIfNeeded();
 
       // Sincronizar la base de datos
       await sequelize.sync({ force: false });

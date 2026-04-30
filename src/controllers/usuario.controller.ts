@@ -1,159 +1,62 @@
-import { Request, Response } from "express";
-import { Usuario, UsuarioI } from "../models/usuario";
+import { Request, Response } from 'express';
+import { usuarioService } from '../services/usuario.service';
+import { errorHandler } from '../utils/error.handler';
+import { successResponse, createdResponse, noContentResponse } from '../utils/response.helper';
+import { CreateUsuarioDto, UpdateUsuarioDto, UsuarioParamsDto } from '../dtos/usuario.dto';
 
 export class UsuarioController {
-
-    public async test(req: Request, res: Response) {
-        try {
-            res.send("Ruta de prueba Usuario");
-        } catch (error) {
-            res.status(500).json({ msg: "Error interno" });
-        }
+  async getAll(req: Request, res: Response) {
+    try {
+      const usuarios = await usuarioService.findAll();
+      return successResponse(res, usuarios);
+    } catch (error) {
+      return errorHandler(error, res);
     }
+  }
 
-    // Obtener todos los usuarios
-    public async getAllUsuarios(req: Request, res: Response) {
-        try {
-
-            const usuarios: UsuarioI[] = await Usuario.findAll();
-
-            res.status(200).json({ usuarios });
-
-        } catch (error) {
-
-            res.status(500).json({ msg: "Error al obtener usuarios" });
-
-        }
+  async getById(req: Request, res: Response) {
+    try {
+      const params = UsuarioParamsDto.parse(req.params);
+      const id: number = Number(params.id);
+      const usuario = await usuarioService.findById(id);
+      return successResponse(res, usuario);
+    } catch (error) {
+      return errorHandler(error, res);
     }
+  }
 
-    // Obtener un usuario por ID
-    public async getOneUsuario(req: Request, res: Response) {
-
-        const { id } = req.params;
-
-        try {
-
-            const usuario: UsuarioI | null = await Usuario.findOne({
-                where: { id }
-            });
-
-            if (usuario) {
-
-                res.status(200).json({ usuario });
-
-            } else {
-
-                res.status(404).json({ msg: "Usuario no encontrado" });
-
-            }
-
-        } catch (error) {
-
-            res.status(500).json({ msg: "Error interno" });
-
-        }
-
+  async create(req: Request, res: Response) {
+    try {
+      const data = CreateUsuarioDto.parse(req.body);
+      const usuario = await usuarioService.create(data);
+      return createdResponse(res, usuario, 'Usuario creado exitosamente');
+    } catch (error) {
+      return errorHandler(error, res);
     }
+  }
 
-    // Crear usuario
-    public async createUsuario(req: Request, res: Response) {
-
-        const {
-            nombre,
-            correo,
-            contraseña
-            
-        } = req.body;
-
-        try {
-
-            let body: UsuarioI = {
-                nombre,
-                correo,
-                contraseña,
-                
-            }
-
-            const usuario: UsuarioI = await Usuario.create({ ...body });
-
-            res.status(200).json({ usuario });
-
-        } catch (error) {
-
-            res.status(500).json({ msg: "Error al crear usuario" });
-
-        }
-
+  async update(req: Request, res: Response) {
+    try {
+      const params = UsuarioParamsDto.parse(req.params);
+      const data = UpdateUsuarioDto.parse(req.body) as any;
+      const id: number = Number(params.id);
+      const usuario = await usuarioService.update(id, data);
+      return successResponse(res, usuario, 200, 'Usuario actualizado exitosamente');
+    } catch (error) {
+      return errorHandler(error, res);
     }
+  }
 
-    // Actualizar usuario
-    public async updateUsuario(req: Request, res: Response) {
-
-        const id = Number(req.params.id);
-
-        const {
-            nombre,
-            correo,
-            contraseña
-        } = req.body;
-
-        try {
-
-            let body: UsuarioI = {
-                nombre,
-                correo,
-                contraseña
-            }
-
-            const usuarioExist: UsuarioI | null = await Usuario.findByPk(id);
-
-            if (!usuarioExist) {
-                return res.status(404).json({ msg: "Usuario no existe" });
-            }
-
-            await Usuario.update(body, {
-                where: { id }
-            });
-
-            const usuario: UsuarioI | null = await Usuario.findByPk(id);
-
-            if (usuario) {
-                return res.status(200).json({ usuario });
-            }
-
-        } catch (error) {
-
-            res.status(500).json({ msg: "Error al actualizar usuario" });
-
-        }
-
+  async delete(req: Request, res: Response) {
+    try {
+      const params = UsuarioParamsDto.parse(req.params);
+      const id: number = Number(params.id);
+      await usuarioService.delete(id);
+      return noContentResponse(res);
+    } catch (error) {
+      return errorHandler(error, res);
     }
-
-    // Eliminar usuario
-    public async deleteUsuario(req: Request, res: Response) {
-
-        const id = Number(req.params.id);
-
-        try {
-
-            const usuarioExist: UsuarioI | null = await Usuario.findByPk(id);
-
-            if (!usuarioExist) {
-                return res.status(404).json({ msg: "Usuario no existe" });
-            }
-
-            await Usuario.destroy({
-                where: { id }
-            });
-
-            res.status(200).json({ msg: "Usuario eliminado correctamente" });
-
-        } catch (error) {
-
-            res.status(500).json({ msg: "Error al eliminar usuario" });
-
-        }
-
-    }
-
+  }
 }
+
+export const usuarioController = new UsuarioController();

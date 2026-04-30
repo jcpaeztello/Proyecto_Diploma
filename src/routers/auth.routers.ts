@@ -1,9 +1,7 @@
-
-import { login, register } from "../controllers/auth.controller";
-
+// Este archivo ya no se usa - las rutas están en /src/routes/auth.routes.ts
+// Se mantiene para evitar errores de importación en otros lugares
 export class AuthRoutes {
     public routes(app: any): void {
-        app.route("/auth/login").post(login);
-        app.route("/auth/register").post(register);
+        console.log('Auth routes deprecated - use /src/routes/auth.routes.ts');
     }
 }
