@@ -11,11 +11,9 @@ import { ComandoRoutes } from "./comando_remoto";
 import { EstadoLuminariaRoutes } from "./estado_luminaria";
 import { EstadoBateriaRoutes } from "./estado_bateria";
 import { LecturaRoutes } from "./lectura_sensor";
+import { DeviceRoutes } from "./devices.routers";
 
-// Stub para Dispositivo y zona
-class DispositivoRoutes {
-  routes(app: any): void { console.log('DispositivoRoutes not implemented'); }
-}
+// Stub para zona
 class zonaRoutes {
   routes(app: any): void { console.log('zonaRoutes not implemented'); }
 }
@@ -34,8 +32,8 @@ export class Routes {
   public estadoLuminariaRoutes = new EstadoLuminariaRoutes();
   public estadoBateriaRoutes = new EstadoBateriaRoutes();
   public lecturaRoutes = new LecturaRoutes();
+  public dispositivosRoutes = new DeviceRoutes();
   
   // Stubs
-  public dispositivosRoutes = new DispositivoRoutes();
   public zonaRoutes = new zonaRoutes();
 }

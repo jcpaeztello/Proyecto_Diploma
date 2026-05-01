@@ -9,7 +9,14 @@ export class AuthController {
     try {
       const data = LoginDto.parse(req.body);
       const result = await authService.login(data);
-      return successResponse(res, result, 200, 'Login exitoso');
+      // IMPORTANTE: Se devuelve el token en la respuesta para que el frontend
+      // lo guarde y lo envíe luego con Authorization: Bearer <token>
+      return res.status(200).json({
+        success: true,
+        message: 'Login exitoso',
+        token: result.token,
+        user: result.user,
+      });
     } catch (error) {
       return errorHandler(error, res);
     }

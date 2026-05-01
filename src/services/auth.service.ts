@@ -21,6 +21,7 @@ export class AuthService {
       email: user.correo,
     });
 
+    // Devolver token y datos de usuario juntos para el frontend.
     return {
       token,
       user: {
