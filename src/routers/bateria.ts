@@ -9,7 +9,9 @@ export class BateriaRoutes {
 
         app.route("/baterias").get(this.bateriaController.getAll);
         app.route("/baterias").post(this.bateriaController.create);
-       
+        app.route("/baterias/:id").get(this.bateriaController.getById);
+        app.route("/baterias/:id").put(this.bateriaController.update);
+        app.route("/baterias/:id").delete(this.bateriaController.delete);
 
     }
 }

@@ -9,7 +9,9 @@ export class LuminariaRoutes {
 
         app.route("/luminarias").get(this.luminariaController.getAll);
         app.route("/luminarias").post(this.luminariaController.create);
-        
+        app.route("/luminarias/:id").get(this.luminariaController.getById);
+        app.route("/luminarias/:id").put(this.luminariaController.update);
+        app.route("/luminarias/:id").delete(this.luminariaController.delete);
 
     }
 }

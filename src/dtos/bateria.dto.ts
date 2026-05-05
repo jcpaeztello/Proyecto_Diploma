@@ -1,14 +1,16 @@
 import { z } from 'zod';
 
 export const CreateBateriaDto = z.object({
-  tipo_bateria: z.string().optional(),
-  capacidad_ah: z.number().positive().optional(),
-  id_panel: z.number().int().positive().optional(),
+  capacidad_ah: z.number().positive(),
+  voltaje: z.number().positive(),
+  estado: z.string().default('activo'),
+  id_panel: z.number().int().positive(),
 });
 
 export const UpdateBateriaDto = z.object({
-  tipo_bateria: z.string().optional(),
   capacidad_ah: z.number().positive().optional(),
+  voltaje: z.number().positive().optional(),
+  estado: z.string().optional(),
   id_panel: z.number().int().positive().optional(),
 });
 
