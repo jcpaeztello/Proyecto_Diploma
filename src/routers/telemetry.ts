@@ -10,13 +10,13 @@ export class TelemetryRoutes {
     public routes(app: Application): void {
 
         // Endpoint público para simulador (sin autenticación)
-        app.route("/api/solar/telemetry").post(this.telemetryController.create);
-        app.route("/api/solar/telemetry/public").post(this.telemetryController.create);
+        app.route("/api/solar/telemetry").post((req, res) => this.telemetryController.create(req, res));
+        app.route("/api/solar/telemetry/public").post((req, res) => this.telemetryController.create(req, res));
         
         // Endpoints protegidos para usuarios autenticados
-        app.route("/api/solar/telemetry").get(authMiddleware, requireAnyRole(['Monitor', 'Operador', 'Admin']), this.telemetryController.getAll);
-        app.route("/api/solar/telemetry/debug").get(authMiddleware, requireAnyRole(['Monitor', 'Operador', 'Admin']), this.telemetryController.debug);
-        app.route("/api/solar/telemetry/mock").get(authMiddleware, requireAnyRole(['Monitor', 'Operador', 'Admin']), this.telemetryController.mockData);
+        app.route("/api/solar/telemetry").get((req, res, next) => authMiddleware(req, res, next), (req, res, next) => requireAnyRole(['Monitor', 'Operador', 'Admin'])(req, res, next), (req, res) => this.telemetryController.getAll(req, res));
+        app.route("/api/solar/telemetry/debug").get((req, res, next) => authMiddleware(req, res, next), (req, res, next) => requireAnyRole(['Monitor', 'Operador', 'Admin'])(req, res, next), (req, res) => this.telemetryController.debug(req, res));
+        app.route("/api/solar/telemetry/mock").get((req, res, next) => authMiddleware(req, res, next), (req, res, next) => requireAnyRole(['Monitor', 'Operador', 'Admin'])(req, res, next), (req, res) => this.telemetryController.mockData(req, res));
 
     }
 
